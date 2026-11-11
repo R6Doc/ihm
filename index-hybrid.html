@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>International House Medellín — Co-Living</title>
+<meta name="description" content="The first co-living in Medellín. 20 private rooms, 900 Mbps WiFi, rooftop kitchen and a 360° view of the city.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syncopate:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111;--gold:#c8a74f;--main:#ff1100;--header:72px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,Helvetica,Arial,sans-serif;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+/* Header */
+header{position:fixed;inset:0 0 auto 0;height:var(--header);background:#fff;z-index:50;border-top:4px solid #111;
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 clamp(20px,8vw,120px)}
+.burger{width:28px;height:20px;display:flex;flex-direction:column;justify-content:center;gap:6px;background:none;border:0;cursor:pointer}
+.burger span{display:block;height:2px;background:#111;transition:.3s}
+.logo img{height:44px;width:auto;margin:0 auto}
+.hright{justify-self:end;display:flex;gap:26px;align-items:center}
+.lang{display:flex;gap:2px;font-size:13px;font-weight:600;letter-spacing:.08em}
+.lang button{background:none;border:0;font:inherit;cursor:pointer;color:#999;padding:6px 7px;border-radius:4px}
+.lang button.on{color:#111}
+.hright svg{width:22px;height:22px;fill:#111}
+
+/* Menu */
+.menu{position:fixed;inset:0;background:#fff;z-index:40;display:flex;flex-direction:column;justify-content:center;
+  padding:0 clamp(24px,10vw,160px);transform:translateY(-100%);transition:transform .6s cubic-bezier(.7,0,.2,1)}
+.menu.open{transform:none}
+.menu a{font-size:clamp(34px,6vw,76px);font-weight:600;letter-spacing:-.02em;line-height:1.25;transition:.2s}
+.menu a:hover{color:var(--gold);padding-left:12px}
+.menu small{margin-top:40px;font-size:13px;letter-spacing:.14em;color:#777}
+body.lock{overflow:hidden}
+
+/* Stacked hero panels */
+html{scroll-snap-type:y proximity}
+.panel{position:relative;height:100vh;min-height:620px;display:flex;align-items:flex-end;justify-content:center;text-align:center;color:#fff;overflow:hidden;scroll-snap-align:start}
+.panel .bg{position:absolute;inset:0;background:var(--img) center/cover;transform:scale(1.08);transition:transform 2.2s cubic-bezier(.2,.7,.2,1)}
+.panel.in .bg{transform:scale(1)}
+.panel::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(8,10,24,.8),rgba(8,10,24,.45) 45%,rgba(8,10,24,.25))}
+.panel .copy{position:relative;z-index:2;padding:0 24px 15vh;max-width:1100px;opacity:0;transform:translateY(30px);transition:1.1s .25s;text-shadow:0 2px 24px rgba(0,0,0,.35)}
+.panel.in .copy{opacity:1;transform:none}
+.eyebrow{font-family:Syncopate,sans-serif;font-size:clamp(11px,1.15vw,15px);letter-spacing:.2em;text-transform:uppercase;margin-bottom:18px}
+.panel h1,.panel h2{font-size:clamp(42px,8.2vw,128px);font-weight:700;letter-spacing:-.04em;line-height:1}
+.sub{margin:18px auto 0;max-width:620px;font-size:clamp(15px,1.4vw,19px);line-height:1.5}
+.pill{display:inline-block;margin-top:34px;padding:19px 44px;border-radius:999px;background:rgba(255,255,255,.22);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-weight:600;font-size:18px;transition:.25s;text-shadow:none}
+.pill:hover{background:#fff;color:#111}
+.chev{position:absolute;bottom:34px;left:50%;margin-left:-13px;z-index:3;width:26px;animation:bob 2s infinite}
+@keyframes bob{50%{transform:translateY(8px)}}
+.dots{position:fixed;right:28px;top:50%;transform:translateY(-50%);z-index:30;display:flex;flex-direction:column;gap:14px;transition:opacity .3s}
+.dots a{width:8px;height:8px;border-radius:50%;background:#fff;opacity:.5;border:1px solid rgba(0,0,0,.25);transition:.3s}
+.dots a.on{opacity:1;transform:scale(1.5)}
+
+/* Hero carousel */
+.hero{scroll-snap-align:start;position:relative;height:100vh;min-height:620px;overflow:hidden;color:#fff;text-align:center;background:#222;padding-top:var(--header)}
+.slide{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;opacity:0;visibility:hidden;transition:opacity 1.2s ease,visibility 1.2s}
+.slide.on{opacity:1;visibility:visible}
+.slide::before{content:"";position:absolute;inset:0;background:var(--img) center/cover;transform:scale(1.1);transition:transform 6s linear}
+.slide.on::before{transform:scale(1)}
+.slide::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(8,10,24,.8) 0%,rgba(8,10,24,.48) 45%,rgba(8,10,24,.28) 100%)}
+.slide .copy{position:relative;z-index:2;padding:0 24px calc(17vh + 130px);max-width:1100px;opacity:0;transform:translateY(30px);transition:1s .5s;text-shadow:0 2px 24px rgba(0,0,0,.35)}
+.slide.on .copy{opacity:1;transform:none}
+.eyebrow{font-family:Syncopate,sans-serif;font-size:clamp(11px,1.15vw,15px);letter-spacing:.2em;text-transform:uppercase;margin-bottom:18px}
+.hero h1,.hero h2{font-size:clamp(42px,8.2vw,128px);font-weight:700;letter-spacing:-.04em;line-height:1}
+.sub{margin:18px auto 0;max-width:620px;font-size:clamp(15px,1.4vw,19px);line-height:1.5}
+.pill{display:inline-block;margin-top:34px;padding:19px 44px;border-radius:999px;background:rgba(255,255,255,.22);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-weight:600;font-size:18px;transition:.25s;text-shadow:none}
+.pill:hover{background:#fff;color:#111}
+.bars{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:10px}
+.bars i{display:block;width:clamp(36px,6vw,64px);height:3px;border-radius:3px;background:rgba(255,255,255,.35);overflow:hidden;cursor:pointer;position:relative;padding:8px 0;background-clip:content-box}
+.bars i::after{content:"";position:absolute;left:0;right:0;top:8px;height:3px;background:#fff;transform:scaleX(0);transform-origin:left}
+.bars i.done::after{transform:scaleX(1)}
+.bars i.on::after{animation:fill var(--dur,6s) linear forwards}
+.hero.paused .bars i.on::after{animation-play-state:paused}
+@keyframes fill{to{transform:scaleX(1)}}
+.chev{position:absolute;bottom:62px;left:50%;margin-left:-13px;z-index:5;width:26px;animation:bob 2s infinite}
+@keyframes bob{50%{transform:translateY(8px)}}
+
+
+/* Booking module */
+.book{position:absolute;left:50%;transform:translateX(-50%);bottom:17vh;width:min(860px,calc(100% - 40px));z-index:6;display:flex;align-items:stretch;background:#fff;color:#111;border-radius:16px;text-shadow:none;text-align:left;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.book .f{flex:1;display:flex;flex-direction:column;justify-content:center;padding:14px 22px;border-right:1px solid #e6e6e6;position:relative;min-width:0;cursor:pointer}
+.book .f>span{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#777;margin-bottom:4px}
+.book input{border:0;outline:0;background:none;font:600 16px Inter,sans-serif;color:#111;width:100%;cursor:pointer;padding:0}
+.book input::-webkit-calendar-picker-indicator{cursor:pointer;opacity:.6}
+.book .guests button#gBtn{background:none;border:0;font:600 16px Inter,sans-serif;text-align:left;cursor:pointer;padding:0;color:#111}
+.book .go{background:var(--main);color:#fff;border:0;font:600 17px Inter,sans-serif;padding:0 36px;cursor:pointer;border-radius:0 16px 16px 0;transition:.25s}
+.book .go:hover{background:#111}
+.gpop{position:absolute;top:calc(100% + 10px);left:0;min-width:260px;background:#fff;border-radius:12px;padding:18px 20px;box-shadow:0 16px 40px rgba(0,0,0,.28);display:none;z-index:10}
+.gpop.open{display:block}
+.gpop .row{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.step{display:flex;align-items:center;gap:14px}
+.step button{width:34px;height:34px;border-radius:50%;border:1px solid #bbb;background:#fff;font-size:20px;line-height:1;cursor:pointer;color:#111}
+.step button:hover{border-color:var(--main);color:var(--main)}
+.step output{min-width:18px;text-align:center;font-weight:600}
+@media (max-height:760px) and (min-width:761px){.slide .copy{padding-bottom:calc(14vh + 120px)}.book{bottom:14vh}}
+@media (max-width:760px){
+  .book{flex-direction:column;width:min(420px,calc(100% - 40px));bottom:64px}
+  .book .f{border-right:0;border-bottom:1px solid #e6e6e6;padding:12px 18px}
+  .book .go{padding:17px;border-radius:0 0 16px 16px}
+  .slide .copy{padding-bottom:340px}
+  .slide .sub{display:none}
+}
+
+/* Light sections */
+.light{padding:clamp(80px,12vw,180px) clamp(20px,8vw,120px);background:#fff}
+.light.alt{background:#f6f5f2}
+.wrap{max-width:1240px;margin:0 auto}
+.kicker{font-family:Syncopate,sans-serif;font-size:12px;letter-spacing:.22em;color:var(--main);text-transform:uppercase;margin-bottom:22px}
+.big{font-size:clamp(34px,5vw,72px);font-weight:700;letter-spacing:-.035em;line-height:1.05;max-width:900px}
+.lead{margin-top:28px;font-size:clamp(16px,1.5vw,20px);line-height:1.65;color:#444;max-width:720px}
+.reveal{opacity:0;transform:translateY(34px);transition:.9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#ddd;margin-top:80px;border:1px solid #ddd}
+.stat{background:#fff;padding:40px 28px}
+.stat b{display:block;font-size:clamp(36px,4.4vw,64px);letter-spacing:-.04em;font-weight:700}
+.stat span{font-size:14px;color:#666;letter-spacing:.04em}
+.rooms{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:70px}
+.room{background:#fff;border-radius:6px;overflow:hidden}
+.room .ph{aspect-ratio:4/3;overflow:hidden}
+.room .ph img{width:100%;height:100%;object-fit:cover;transition:transform .8s}
+.room:hover .ph img{transform:scale(1.07)}
+.room .in{padding:26px}
+.room h3{font-size:20px;letter-spacing:-.01em}
+.room .price{margin-top:14px;font-size:28px;font-weight:700;letter-spacing:-.03em}
+.room .price small{font-size:13px;font-weight:500;color:#777;letter-spacing:0}
+.room p{margin-top:10px;font-size:14px;color:#666;line-height:1.5}
+.nightly{margin-top:36px;padding:28px 32px;border:1px solid #ddd;border-radius:6px;display:flex;gap:40px;flex-wrap:wrap;background:#fff}
+.nightly div{font-size:15px;color:#555}.nightly b{display:block;font-size:22px;color:#111;margin-top:4px}
+.amen{display:grid;grid-template-columns:repeat(3,1fr);margin-top:70px;border-top:1px solid #ddd}
+.amen div{padding:34px 30px 34px 0;border-bottom:1px solid #ddd;font-size:17px;line-height:1.5}
+.amen b{display:block;font-size:12px;letter-spacing:.2em;color:var(--main);margin-bottom:10px;font-family:Syncopate,sans-serif}
+.quotes{background:#111;color:#fff}
+.quotes .kicker{color:var(--gold)}
+.qgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:70px}
+.qgrid blockquote{font-size:clamp(16px,1.35vw,19px);line-height:1.65;color:#ddd}
+.qgrid cite{display:block;margin-top:22px;font-style:normal;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.contact{display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center}
+.map{border-radius:10px;overflow:hidden;aspect-ratio:4/3;width:100%;background:#eee;box-shadow:0 20px 50px rgba(0,0,0,.12)}
+.map iframe{width:100%;height:100%;border:0;display:block}
+.btn{display:inline-block;margin-top:34px;padding:19px 44px;border-radius:999px;background:#111;color:#fff;font-weight:600;font-size:17px;transition:.25s}
+.btn:hover{background:var(--main)}
+.btn.ghost{background:none;color:#111;border:1px solid #111;margin-left:12px}
+.btn.ghost:hover{background:#111;color:#fff}
+footer{padding:50px clamp(20px,8vw,120px);border-top:1px solid #e5e5e5;display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;font-size:13px;color:#777}
+
+@media (max-width:980px){.stats,.rooms,.amen,.qgrid{grid-template-columns:1fr 1fr}.contact{grid-template-columns:1fr}}
+@media (max-width:980px){.dots{display:none}}
+@media (max-width:600px){.stats,.rooms,.amen,.qgrid{grid-template-columns:1fr}.btn.ghost{margin:14px 0 0}.hright{gap:16px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+  <a class="logo" href="#top"><img src="img/logo-ih.png" alt="International House Medellín"></a>
+  <div class="hright">
+    <div class="lang"><button data-lang="en">EN</button><button data-lang="es">ES</button></div>
+    <a href="#contact" aria-label="Location"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.500A2.500 2.500 0 1 1 12 6.500a2.500 2.500 0 0 1 0 5z"/></svg></a>
+    <a href="https://wa.me/573012114380" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M20 3.900A10 10 0 0 0 3.600 16.100L2 22l6-1.600A10 10 0 1 0 20 3.900zM12 20.200a8.200 8.200 0 0 1-4.200-1.200l-.3-.2-3.500.9.900-3.400-.2-.3A8.200 8.200 0 1 1 12 20.200zm4.500-6.100c-.2-.1-1.500-.7-1.700-.8s-.4-.1-.6.100-.6.800-.8 1-.3.200-.6.100a6.700 6.700 0 0 1-3.300-2.900c-.2-.4.200-.4.700-1.300a.5.5 0 0 0 0-.5l-.8-1.800c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.300 3 3 0 0 0-.9 2.200 5.200 5.200 0 0 0 1.100 2.800 11.900 11.900 0 0 0 4.600 4c1.700.7 2.300.8 3.200.7a2.700 2.700 0 0 0 1.800-1.300 2.200 2.200 0 0 0 .2-1.300c-.1-.1-.3-.2-.5-.3z"/></svg></a>
+  </div>
+</header>
+
+<nav class="menu" id="menu">
+  <a href="#top" data-i18n="m1"></a>
+  <a href="#rooms" data-i18n="m2"></a>
+  <a href="#amenities" data-i18n="m3"></a>
+  <a href="#about" data-i18n="m4"></a>
+  <a href="#contact" data-i18n="m5"></a>
+  <small>CALLE 32B #66C-06 · BELÉN ROSALES · MEDELLÍN</small>
+</nav>
+
+<div class="dots" id="dots"><a href="#top"></a><a href="#p2"></a><a href="#p3"></a><a href="#p4"></a></div>
+<section class="hero" id="top">
+  <div class="slides">
+    <div class="slide on" style="--img:url(img/5s-scaled-1.jpg)"><div class="copy">
+      <div class="eyebrow" data-i18n="s1e"></div><h1 data-i18n="s1t"></h1><p class="sub" data-i18n="s1p"></p>
+</div></div>
+    <div class="slide" style="--img:url(img/best-hostel-in-medellin-2-1.jpg)"><div class="copy">
+      <div class="eyebrow" data-i18n="s4e"></div><h2 data-i18n="s4t"></h2><p class="sub" data-i18n="s4p"></p></div></div>
+  </div>
+  <form class="book" id="book" autocomplete="off">
+        <label class="f"><span data-i18n="bk_in"></span><input type="date" id="bIn" required></label>
+        <label class="f"><span data-i18n="bk_out"></span><input type="date" id="bOut" required></label>
+        <div class="f guests"><span data-i18n="bk_g"></span>
+          <button type="button" id="gBtn" aria-expanded="false"></button>
+          <div class="gpop" id="gPop">
+            <div class="row"><b data-i18n="bk_adults"></b><div class="step"><button type="button" data-d="-1" aria-label="-">−</button><output id="gVal">2</output><button type="button" data-d="1" aria-label="+">+</button></div></div>
+          </div></div>
+        <button class="go" type="submit" data-i18n="bk_s"></button>
+      </form>
+  <div class="bars" id="bars"><i></i><i></i></div>
+  <a class="chev" href="#p2" aria-label="Scroll"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M4 8l8 8 8-8"/></svg></a>
+</section>
+
+<section class="panel" id="p2">
+  <div class="bg" style="--img:url(img/RoofTop-2s-scaled-1.jpg)"></div>
+  <div class="copy"><div class="eyebrow" data-i18n="s2e"></div><h2 data-i18n="s2t"></h2><p class="sub" data-i18n="s2p"></p>
+  <a class="pill" href="#amenities" data-i18n="more"></a></div>
+  
+</section>
+<section class="panel" id="p3">
+  <div class="bg" style="--img:url(img/Kitchen-1s-scaled-1.jpg)"></div>
+  <div class="copy"><div class="eyebrow" data-i18n="s3e"></div><h2 data-i18n="s3t"></h2><p class="sub" data-i18n="s3p"></p>
+  <a class="pill" href="#about" data-i18n="more"></a></div>
+  
+</section>
+<section class="panel" id="p4">
+  <div class="bg" style="--img:url(img/habitacion-privada-medellin-1.jpg)"></div>
+  <div class="copy"><div class="eyebrow" data-i18n="s5e"></div><h2 data-i18n="s5t"></h2><p class="sub" data-i18n="s5p"></p>
+  <a class="pill" href="#rooms" data-i18n="s5b"></a></div>
+  
+</section>
+
+<!-- About -->
+<section class="light" id="about">
+  <div class="wrap">
+    <div class="kicker reveal" data-i18n="a_k"></div>
+    <h2 class="big reveal" data-i18n="a_h"></h2>
+    <p class="lead reveal" data-i18n="a_p"></p>
+    <div class="stats reveal">
+      <div class="stat"><b>20</b><span data-i18n="st1"></span></div>
+      <div class="stat"><b>900</b><span data-i18n="st2"></span></div>
+      <div class="stat"><b>360°</b><span data-i18n="st3"></span></div>
+      <div class="stat"><b>50</b><span data-i18n="st4"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Rooms -->
+<section class="light alt" id="rooms">
+  <div class="wrap">
+    <div class="kicker reveal" data-i18n="r_k"></div>
+    <h2 class="big reveal" data-i18n="r_h"></h2>
+    <p class="lead reveal" data-i18n="r_p"></p>
+    <div class="rooms">
+      <article class="room reveal"><div class="ph"><img src="img/5s-scaled-1.jpg" alt="" loading="lazy"></div>
+        <div class="in"><h3 data-i18n="rm1"></h3><div class="price">$2.1M <small data-i18n="pm"></small></div><p data-i18n="rm1p"></p></div></article>
+      <article class="room reveal"><div class="ph"><img src="img/habitacion-privada-medellin-1.jpg" alt="" loading="lazy"></div>
+        <div class="in"><h3 data-i18n="rm2"></h3><div class="price">$2.3M <small data-i18n="pm"></small></div><p data-i18n="rm2p"></p></div></article>
+      <article class="room reveal"><div class="ph"><img src="img/best-hostel-in-medellin-2-1.jpg" alt="" loading="lazy"></div>
+        <div class="in"><h3 data-i18n="rm3"></h3><div class="price">$2.5M <small data-i18n="pm"></small></div><p data-i18n="rm3p"></p></div></article>
+      <article class="room reveal"><div class="ph"><img src="img/clean-bathrooms.jpg" alt="" loading="lazy"></div>
+        <div class="in"><h3 data-i18n="rm4"></h3><div class="price">$2.7M <small data-i18n="pm"></small></div><p data-i18n="rm4p"></p></div></article>
+    </div>
+    <div class="nightly reveal">
+      <div><span data-i18n="n1"></span><b>$100,000 – $200,000 <span data-i18n="pn"></span></b></div>
+      <div><span data-i18n="n2"></span><b>$120,000 – $220,000 <span data-i18n="pn"></span></b></div>
+      <div><span data-i18n="n3"></span><b data-i18n="n3v"></b></div>
+    </div>
+  </div>
+</section>
+
+<!-- Amenities -->
+<section class="light" id="amenities">
+  <div class="wrap">
+    <div class="kicker reveal" data-i18n="am_k"></div>
+    <h2 class="big reveal" data-i18n="am_h"></h2>
+    <div class="amen">
+      <div class="reveal"><b>01</b><span data-i18n="am1"></span></div>
+      <div class="reveal"><b>02</b><span data-i18n="am2"></span></div>
+      <div class="reveal"><b>03</b><span data-i18n="am3"></span></div>
+      <div class="reveal"><b>04</b><span data-i18n="am4"></span></div>
+      <div class="reveal"><b>05</b><span data-i18n="am5"></span></div>
+      <div class="reveal"><b>06</b><span data-i18n="am6"></span></div>
+      <div class="reveal"><b>07</b><span data-i18n="am7"></span></div>
+      <div class="reveal"><b>08</b><span data-i18n="am8"></span></div>
+      <div class="reveal"><b>09</b><span data-i18n="am9"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="light quotes" id="testimonials">
+  <div class="wrap">
+    <div class="kicker reveal" data-i18n="t_k"></div>
+    <h2 class="big reveal" data-i18n="t_h"></h2>
+    <div class="qgrid">
+      <blockquote class="reveal"><span data-i18n="q1"></span><cite>Katherine · Aug 2015</cite></blockquote>
+      <blockquote class="reveal"><span data-i18n="q2"></span><cite>John · Aug 2015</cite></blockquote>
+      <blockquote class="reveal"><span data-i18n="q3"></span><cite>Robyn</cite></blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="light" id="contact">
+  <div class="wrap contact">
+    <div>
+      <div class="kicker reveal" data-i18n="c_k"></div>
+      <h2 class="big reveal" data-i18n="c_h"></h2>
+      <p class="lead reveal" data-i18n="c_p"></p>
+      <p class="lead reveal"><b>Calle 32B #66C-06, Belén Rosales, Medellín</b><br><span data-i18n="c_ph"></span> +57 301 211 4380</p>
+      <div class="reveal">
+        <a class="btn" href="https://wa.me/573012114380" data-i18n="c_b1"></a>
+        <a class="btn ghost" href="https://www.google.com/maps/search/?api=1&query=International+House+Medellin" data-i18n="c_b2"></a>
+      </div>
+    </div>
+    <div class="map reveal"><iframe title="International House Medellín" src="https://www.google.com/maps?q=International+House+Medellin,+Calle+32B+%2366C-06,+Bel%C3%A9n+Rosales,+Medell%C3%ADn,+Colombia&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+  </div>
+</section>
+
+<footer>
+  <span data-i18n="f1"></span>
+  <span>Facebook · Twitter</span>
+</footer>
+
+<script>
+const T={
+en:{
+m1:"Home",m2:"Private Rooms",m3:"Amenities",m4:"About Us",m5:"Contact",more:"Discover more",
+s1e:"International House",s1t:"Co-Living Medellín",s1p:"The first co-living in the City of Eternal Spring. Private rooms, 900 Mbps WiFi and a rooftop with a 360° view.",
+s2e:"The Rooftop",s2t:"Above the City",s2p:"A dome-covered terrace, steam room, BBQ and a 30-seat big-screen lounge.",
+s3e:"The Kitchen",s3t:"Industrial Grade",s3p:"A full restaurant-equipment rooftop kitchen, considered one of the best of any co-living in the world.",
+s4e:"Medellín",s4t:"Your Home in the City",s4p:"Less than 10 minutes from Parque Lleras, La 70 and Laureles.",s4b:"Book now",bk_in:"Check-in",bk_out:"Check-out",bk_g:"Guests",bk_adults:"Adults",bk_s:"Check availability",gw1:"guest",gwn:"guests",wa:"Hi! I would like to book from {a} to {b} for {n}.",pick:"Select date",s5e:"Our Rooms",s5t:"Private Rooms",s5p:"Affordable rooms for digital nomads and world travelers.",s5b:"View rooms",
+a_k:"Excellent co-living in Medellín",a_h:"Privacy when you want it. Community when you want it.",
+a_p:"We provide what our guests want: comfortable beds, guaranteed hot showers 24/7, the best WiFi of any hostel or co-living in Medellín (900 Mbps seamless across the building), spacious common areas with wonderful views, tight security and a social, not party, atmosphere. We are proud to have been the first co-living in Medellín.",
+st1:"Private rooms",st2:"Mbps seamless WiFi",st3:"Rooftop city view",st4:"Group capacity",
+r_k:"Renovation completed",r_h:"20 private rooms, fully renovated.",
+r_p:"Each room has a Smart TV, new double mattress, fan, work area, rotating office chair, blackout curtains, 900 Mbps WiFi, sheets, towels, blanket, closet and a digital keyless lock. Rooms share 12 bathrooms, all with great pressure and hot water.",
+rm1:"Standard",rm1p:"Private room, no view. Full access to all common areas.",
+rm2:"With View",rm2p:"Bright room facing the city and the trees.",
+rm3:"View + Balcony",rm3p:"Your own balcony and the best views in the building.",
+rm4:"Private Bathroom",rm4p:"Everything above plus an en-suite bathroom.",
+pm:"COP / month",pn:"/ night",n1:"Single occupancy",n2:"Double occupancy",n3:"Monthly from",n3v:"$500 USD / month",
+am_k:"Amenities",am_h:"Everything that makes us the best co-living in Medellín.",
+am1:"20 rooms with firm, new mattresses, sheets and pillows.",am2:"900 Mbps seamless WiFi, floor to floor, rooftop included.",
+am3:"Rooftop community kitchen with full industrial equipment.",am4:"Steam room, BBQ grill and dome-covered terrace.",
+am5:"Laundry: wash, dry and fold for less than $5 USD per load.",am6:"Free day-storage of luggage after checkout.",
+am7:"Closets and lockers to store your things securely.",am8:"Pools, tennis, soccer and basketball nearby, plus free yoga and aerobics.",
+am9:"A WhatsApp group where guests organize events and outings every day.",
+t_k:"Testimonials",t_h:"Enjoy & remember great times with us.",
+q1:"“We had the best time in Medellín and Joel went out of his way to make sure we were comfortable and had everything we needed. Great hosts, great neighborhood, and easy access to all of Medellín.”",
+q2:"“Joel is a great guy! Everything was in order, just as described in the listing. We were a group of 14 people and felt right at home. Recommended.”",
+q3:"“Fantastic place. Great location with an easy walk to the city. The view from the roof is gorgeous. Wonderful host and staff. Incredible industrial kitchen on the rooftop.”",
+c_k:"Make a reservation",c_h:"Come stay with Joel and the team.",
+c_p:"Less than 10 minutes from Medellín’s three entertainment districts: Parque Lleras (El Poblado), La 70 and Laureles. Look for the 5-story brick building, half a block from the big swimming pool and across from the covered basketball courts.",
+c_ph:"Phone + WhatsApp:",c_b1:"Book now",c_b2:"Get directions",f1:"© 2026 International House Medellín. All rights reserved."
+},
+es:{
+m1:"Inicio",m2:"Habitaciones Privadas",m3:"Servicios",m4:"Nosotros",m5:"Contacto",more:"Descubre más",
+s1e:"International House",s1t:"Co-Living Medellín",s1p:"El primer co-living en la Ciudad de la Eterna Primavera. Habitaciones privadas, WiFi de 900 Mbps y una terraza con vista de 360°.",
+s2e:"La Terraza",s2t:"Sobre la Ciudad",s2p:"Terraza cubierta con domo, sauna de vapor, BBQ y sala con pantalla gigante para 30 personas.",
+s3e:"La Cocina",s3t:"Nivel Industrial",s3p:"Una cocina en la terraza con equipo de restaurante, considerada una de las mejores de cualquier co-living del mundo.",
+s4e:"Medellín",s4t:"Tu Hogar en la Ciudad",s4p:"A menos de 10 minutos del Parque Lleras, La 70 y Laureles.",s4b:"Reserva ahora",bk_in:"Llegada",bk_out:"Salida",bk_g:"Huéspedes",bk_adults:"Adultos",bk_s:"Ver disponibilidad",gw1:"huésped",gwn:"huéspedes",wa:"¡Hola! Quisiera reservar del {a} al {b} para {n}.",pick:"Elige fecha",s5e:"Nuestras Habitaciones",s5t:"Habitaciones Privadas",s5p:"Habitaciones accesibles para nómadas digitales y viajeros del mundo.",s5b:"Ver habitaciones",
+a_k:"Un excelente co-living en Medellín",a_h:"Privacidad cuando la quieres. Comunidad cuando la quieres.",
+a_p:"Ofrecemos lo que nuestros huéspedes buscan: camas cómodas, agua caliente garantizada 24/7, el mejor WiFi de cualquier hostal o co-living en Medellín (900 Mbps continuos en todo el edificio), amplias zonas comunes con vistas maravillosas, seguridad estricta y un ambiente social, no de fiesta. Estamos orgullosos de haber sido el primer co-living de Medellín.",
+st1:"Habitaciones privadas",st2:"Mbps de WiFi continuo",st3:"Vista de la ciudad desde la terraza",st4:"Capacidad para grupos",
+r_k:"Renovación completada",r_h:"20 habitaciones privadas, totalmente renovadas.",
+r_p:"Cada habitación tiene Smart TV, colchón doble nuevo, ventilador, zona de trabajo, silla de oficina giratoria, cortinas blackout, WiFi de 900 Mbps, sábanas, toallas, cobija, closet y cerradura digital sin llave. Las habitaciones comparten 12 baños, todos con buena presión y agua caliente.",
+rm1:"Estándar",rm1p:"Habitación privada, sin vista. Acceso completo a todas las zonas comunes.",
+rm2:"Con Vista",rm2p:"Habitación luminosa con vista a la ciudad y los árboles.",
+rm3:"Vista + Balcón",rm3p:"Tu propio balcón y las mejores vistas del edificio.",
+rm4:"Baño Privado",rm4p:"Todo lo anterior más un baño dentro de la habitación.",
+pm:"COP / mes",pn:"/ noche",n1:"Ocupación sencilla",n2:"Ocupación doble",n3:"Mensual desde",n3v:"$500 USD / mes",
+am_k:"Servicios",am_h:"Todo lo que nos hace el mejor co-living de Medellín.",
+am1:"20 habitaciones con colchones firmes y nuevos, sábanas y almohadas.",am2:"WiFi de 900 Mbps continuo en todos los pisos, terraza incluida.",
+am3:"Cocina comunitaria en la terraza con equipo industrial completo.",am4:"Sauna de vapor, parrilla BBQ y terraza cubierta con domo.",
+am5:"Lavandería: lavado, secado y doblado por menos de $5 USD por carga.",am6:"Guardado gratuito de equipaje durante el día después del check-out.",
+am7:"Closets y lockers para guardar tus cosas de forma segura.",am8:"Piscinas, tenis, fútbol y baloncesto cerca, más yoga y aeróbicos gratis.",
+am9:"Un grupo de WhatsApp donde los huéspedes organizan eventos y salidas todos los días.",
+t_k:"Testimonios",t_h:"Disfruta y recuerda grandes momentos con nosotros.",
+q1:"“Lo pasamos genial en Medellín y Joel hizo todo lo posible para que estuviéramos cómodos y tuviéramos todo lo que necesitábamos. Excelentes anfitriones, buen barrio y fácil acceso a toda Medellín.”",
+q2:"“¡Joel es un tipazo! Todo estuvo en orden, tal cual descrita en su publicación, no hubo problema de nada. Fuimos un grupo de 14 personas y nos sentimos a gusto con el lugar. Recomendado.”",
+q3:"“Un lugar fantástico. Excelente ubicación, a poca distancia a pie del centro. La vista desde la terraza es preciosa. Anfitrión y personal maravillosos. Una cocina industrial increíble en la terraza.”",
+c_k:"Haz una reserva",c_h:"Ven a quedarte con Joel y el equipo.",
+c_p:"A menos de 10 minutos de los tres sectores de entretenimiento de Medellín: Parque Lleras (El Poblado), La 70 y Laureles. Busca el edificio de ladrillo de 5 pisos, a media cuadra de la piscina grande y frente a las canchas cubiertas de baloncesto.",
+c_ph:"Teléfono + WhatsApp:",c_b1:"Reserva ahora",c_b2:"Cómo llegar",f1:"© 2026 International House Medellín. Todos los derechos reservados."
+}};
+const TITLE={en:"International House Medellín — Co-Living",es:"International House Medellín — Co-Living en Medellín"};
+function setLang(l){
+  document.documentElement.lang=l;document.title=TITLE[l];
+  document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=T[l][el.dataset.i18n]);
+  document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.lang===l));
+  try{localStorage.setItem('ih-lang',l)}catch(e){}
+  if(window.renderGuests)renderGuests();
+}
+let saved=null;try{saved=localStorage.getItem('ih-lang')}catch(e){}
+setLang(saved||((navigator.language||'').toLowerCase().startsWith('es')?'es':'en'));
+document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
+
+// menu
+const burger=document.getElementById('burger'),menu=document.getElementById('menu');
+function toggle(open){menu.classList.toggle('open',open);document.body.classList.toggle('lock',open);
+  const s=burger.querySelectorAll('span');
+  s[0].style.transform=open?'translateY(4px) rotate(45deg)':'';s[1].style.transform=open?'translateY(-4px) rotate(-45deg)':'';}
+burger.onclick=()=>toggle(!menu.classList.contains('open'));
+menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>toggle(false)));
+
+// panels + dots
+const panels=[...document.querySelectorAll('.hero,.panel')],dots=[...document.querySelectorAll('#dots a')];
+const po=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');
+  dots.forEach(d=>d.classList.remove('on'));dots[panels.indexOf(e.target)].classList.add('on')}}),{threshold:.55});
+panels.forEach(x=>po.observe(x));
+addEventListener('scroll',()=>{document.getElementById('dots').style.opacity=scrollY>innerHeight*3.4?0:1},{passive:true});
+
+// carousel
+(function(){
+  const hero=document.querySelector('.hero'),slides=[...hero.querySelectorAll('.slide')],bars=[...hero.querySelectorAll('.bars i')];
+  const DUR=4500;let cur=0,timer;
+  hero.style.setProperty('--dur',DUR+'ms');
+  function go(n){
+    cur=(n+slides.length)%slides.length;
+    slides.forEach((s,i)=>s.classList.toggle('on',i===cur));
+    bars.forEach((b,i)=>{b.classList.remove('on','done');void b.offsetWidth;if(i<cur)b.classList.add('done');if(i===cur)b.classList.add('on')});
+    clearTimeout(timer);timer=setTimeout(()=>go(cur+1),DUR);
+    hero.classList.remove('paused');
+  }
+  bars.forEach((b,i)=>b.onclick=()=>go(i));
+  const bk=document.getElementById('book');
+  bk.addEventListener('focusin',()=>{clearTimeout(timer);hero.classList.add('paused')});
+  bk.addEventListener('click',()=>{clearTimeout(timer);hero.classList.add('paused')});
+  // swipe
+  let x0=null;
+  hero.addEventListener('touchstart',e=>{x0=e.target.closest('.book')?null:e.touches[0].clientX},{passive:true});
+  hero.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>50)go(cur+(d<0?1:-1));x0=null});
+  // keyboard
+  addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
+  // pause when off-screen
+  new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){go(cur)}else{clearTimeout(timer)}})},{threshold:.3}).observe(hero);
+})();
+
+
+// booking module (mockup: sends dates to WhatsApp)
+(function(){
+  const inp=document.getElementById('bIn'),out=document.getElementById('bOut'),btn=document.getElementById('gBtn'),pop=document.getElementById('gPop'),val=document.getElementById('gVal');
+  let n=2;const iso=d=>d.toISOString().slice(0,10);
+  const today=new Date(),tom=new Date(Date.now()+864e5);
+  inp.min=iso(today);out.min=iso(tom);inp.value=iso(today);out.value=iso(new Date(Date.now()+3*864e5));
+  inp.onchange=()=>{const m=new Date(new Date(inp.value).getTime()+864e5);out.min=iso(m);if(out.value<=inp.value)out.value=iso(m)};
+  document.querySelectorAll('.book .f:not(.guests)').forEach(l=>l.addEventListener('click',()=>{try{l.querySelector('input').showPicker()}catch(e){}}));
+  window.renderGuests=()=>{const l=document.documentElement.lang;btn.textContent=n+' '+(n===1?T[l].gw1:T[l].gwn);val.textContent=n};
+  renderGuests();
+  btn.onclick=e=>{e.stopPropagation();const o=pop.classList.toggle('open');btn.setAttribute('aria-expanded',o)};
+  pop.onclick=e=>e.stopPropagation();
+  pop.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{n=Math.min(12,Math.max(1,n+ +b.dataset.d));renderGuests()});
+  document.addEventListener('click',()=>pop.classList.remove('open'));
+  document.getElementById('book').onsubmit=e=>{e.preventDefault();const l=document.documentElement.lang;
+    const fmt=v=>new Date(v+'T12:00').toLocaleDateString(l==='es'?'es-CO':'en-US',{day:'numeric',month:'short'});
+    const msg=T[l].wa.replace('{a}',fmt(inp.value)).replace('{b}',fmt(out.value)).replace('{n}',n+' '+(n===1?T[l].gw1:T[l].gwn));
+    window.open('https://wa.me/573012114380?text='+encodeURIComponent(msg),'_blank')};
+})();
+
+// reveal on scroll
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.2});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.querySelectorAll('.rooms .reveal,.amen .reveal,.qgrid .reveal').forEach((el,i)=>el.style.transitionDelay=(i%4)*.1+'s');
+</script>
+</body>
+</html>
