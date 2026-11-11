@@ -18,8 +18,9 @@ img{display:block;max-width:100%}
 /* Header */
 header{position:fixed;inset:0 0 auto 0;height:var(--header);background:#fff;z-index:50;border-top:4px solid #111;
   display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 clamp(20px,8vw,120px)}
-.burger{width:28px;height:20px;display:flex;flex-direction:column;justify-content:center;gap:6px;background:none;border:0;cursor:pointer}
+.burger{width:28px;height:20px;display:flex;flex-direction:column;justify-content:center;gap:5px;background:none;border:0;cursor:pointer}
 .burger span{display:block;height:2px;background:#111;transition:.3s}
+.burger.x span:nth-child(2){opacity:0}
 .logo img{height:44px;width:auto;margin:0 auto}
 .hright{justify-self:end;display:flex;gap:26px;align-items:center}
 .lang{display:flex;gap:2px;font-size:13px;font-weight:600;letter-spacing:.08em}
@@ -106,6 +107,42 @@ html{scroll-snap-type:y proximity}
   .slide .sub{display:none}
 }
 
+
+.book .val{background:none;border:0;font:600 16px Inter,sans-serif;text-align:left;cursor:pointer;padding:0;color:#111;width:100%}
+.book .f.active>span{color:var(--main)}
+.book .f.active::after{content:"";position:absolute;left:22px;right:22px;bottom:8px;height:2px;background:var(--main);border-radius:2px}
+.cal{position:absolute;bottom:calc(100% + 12px);left:0;background:#fff;border-radius:18px;padding:26px 28px 20px;box-shadow:0 24px 70px rgba(0,0,0,.4);display:none;z-index:12;color:#111;cursor:default}
+.cal.open{display:block;animation:pop .22s ease}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}}
+.cal .months{display:flex;gap:44px}
+.cal .mo{width:294px}
+.cal .mh{height:40px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;text-transform:capitalize;letter-spacing:-.01em;position:relative}
+.cal .nav{position:absolute;top:0;width:36px;height:36px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer;display:grid;place-items:center;transition:.2s}
+.cal .nav:hover:not(:disabled){border-color:var(--main);color:var(--main)}
+.cal .nav:disabled{opacity:.3;cursor:default}
+.cal .nav svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.5}
+.cal .prev{left:0}.cal .next{right:0}
+.cal .grid{display:grid;grid-template-columns:repeat(7,1fr);row-gap:2px;margin-top:10px}
+.cal .wd{text-align:center;font-size:11px;font-weight:600;letter-spacing:.1em;color:#888;padding:6px 0 10px;text-transform:uppercase}
+.cal .d{position:relative;height:42px;border:0;background:none;font:500 15px Inter,sans-serif;color:#111;cursor:pointer;z-index:0}
+.cal .d::before{content:"";position:absolute;inset:0;z-index:-1}
+.cal .d.rng::before{background:rgba(255,17,0,.09)}
+.cal .d.s::before{background:rgba(255,17,0,.09);left:50%}
+.cal .d.e::before{background:rgba(255,17,0,.09);right:50%}
+.cal .d.s.e::before{display:none}
+.cal .d span{position:relative;display:grid;place-items:center;width:40px;height:40px;margin:1px auto;border-radius:50%;transition:.15s}
+.cal .d:hover:not(:disabled):not(.s):not(.e) span{box-shadow:inset 0 0 0 1.5px var(--main)}
+.cal .d.s span,.cal .d.e span{background:var(--main);color:#fff;font-weight:700}
+.cal .d.t span::after{content:"";position:absolute;bottom:6px;width:4px;height:4px;border-radius:50%;background:var(--gold)}
+.cal .d.s.t span::after,.cal .d.e.t span::after{background:#fff}
+.cal .d:disabled{color:#c9c9c9;cursor:default}
+.cal .d.blank{visibility:hidden}
+.cal .foot{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:14px;border-top:1px solid #eee;font-size:14px;color:#666}
+.cal .foot b{color:#111}
+.cal .foot i{font-style:normal;color:var(--gold);font-weight:600}
+@media (max-width:980px){.cal{left:50%;transform:translateX(-50%)}.cal.open{animation:none}}
+@media (max-width:760px){.cal{width:calc(100vw - 40px);max-width:360px;padding:20px 16px 14px}.cal .months{display:block}.cal .mo{width:100%}}
+
 /* Light sections */
 .light{padding:clamp(80px,12vw,180px) clamp(20px,8vw,120px);background:#fff}
 .light.alt{background:#f6f5f2}
@@ -157,12 +194,12 @@ footer{padding:50px clamp(20px,8vw,120px);border-top:1px solid #e5e5e5;display:f
 <body>
 
 <header>
-  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
   <a class="logo" href="#top"><img src="img/logo-ih.png" alt="International House Medellín"></a>
   <div class="hright">
     <div class="lang"><button data-lang="en">EN</button><button data-lang="es">ES</button></div>
     <a href="#contact" aria-label="Location"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.500A2.500 2.500 0 1 1 12 6.500a2.500 2.500 0 0 1 0 5z"/></svg></a>
-    <a href="https://wa.me/573012114380" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M20 3.900A10 10 0 0 0 3.600 16.100L2 22l6-1.600A10 10 0 1 0 20 3.900zM12 20.200a8.200 8.200 0 0 1-4.200-1.200l-.3-.2-3.500.9.900-3.400-.2-.3A8.200 8.200 0 1 1 12 20.200zm4.500-6.100c-.2-.1-1.500-.7-1.700-.8s-.4-.1-.6.100-.6.800-.8 1-.3.200-.6.100a6.700 6.700 0 0 1-3.300-2.900c-.2-.4.200-.4.700-1.300a.5.5 0 0 0 0-.5l-.8-1.800c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.300 3 3 0 0 0-.9 2.200 5.200 5.200 0 0 0 1.100 2.800 11.900 11.900 0 0 0 4.600 4c1.700.7 2.300.8 3.200.7a2.700 2.700 0 0 0 1.800-1.300 2.200 2.200 0 0 0 .2-1.300c-.1-.1-.3-.2-.5-.3z"/></svg></a>
+    <a href="https://wa.me/573012114380" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
   </div>
 </header>
 
@@ -185,13 +222,14 @@ footer{padding:50px clamp(20px,8vw,120px);border-top:1px solid #e5e5e5;display:f
       <div class="eyebrow" data-i18n="s4e"></div><h2 data-i18n="s4t"></h2><p class="sub" data-i18n="s4p"></p></div></div>
   </div>
   <form class="book" id="book" autocomplete="off">
-        <label class="f"><span data-i18n="bk_in"></span><input type="date" id="bIn" required></label>
-        <label class="f"><span data-i18n="bk_out"></span><input type="date" id="bOut" required></label>
+        <div class="f dt" data-p="in"><span data-i18n="bk_in"></span><button type="button" class="val" id="bIn"></button></div>
+        <div class="f dt" data-p="out"><span data-i18n="bk_out"></span><button type="button" class="val" id="bOut"></button></div>
         <div class="f guests"><span data-i18n="bk_g"></span>
-          <button type="button" id="gBtn" aria-expanded="false"></button>
+          <button type="button" class="val" id="gBtn" aria-expanded="false"></button>
           <div class="gpop" id="gPop">
             <div class="row"><b data-i18n="bk_adults"></b><div class="step"><button type="button" data-d="-1" aria-label="-">−</button><output id="gVal">2</output><button type="button" data-d="1" aria-label="+">+</button></div></div>
           </div></div>
+        <div class="cal" id="cal"></div>
         <button class="go" type="submit" data-i18n="bk_s"></button>
       </form>
   <div class="bars" id="bars"><i></i><i></i></div>
@@ -317,7 +355,7 @@ m1:"Home",m2:"Private Rooms",m3:"Amenities",m4:"About Us",m5:"Contact",more:"Dis
 s1e:"International House",s1t:"Co-Living Medellín",s1p:"The first co-living in the City of Eternal Spring. Private rooms, 900 Mbps WiFi and a rooftop with a 360° view.",
 s2e:"The Rooftop",s2t:"Above the City",s2p:"A dome-covered terrace, steam room, BBQ and a 30-seat big-screen lounge.",
 s3e:"The Kitchen",s3t:"Industrial Grade",s3p:"A full restaurant-equipment rooftop kitchen, considered one of the best of any co-living in the world.",
-s4e:"Medellín",s4t:"Your Home in the City",s4p:"Less than 10 minutes from Parque Lleras, La 70 and Laureles.",s4b:"Book now",bk_in:"Check-in",bk_out:"Check-out",bk_g:"Guests",bk_adults:"Adults",bk_s:"Check availability",gw1:"guest",gwn:"guests",wa:"Hi! I would like to book from {a} to {b} for {n}.",pick:"Select date",s5e:"Our Rooms",s5t:"Private Rooms",s5p:"Affordable rooms for digital nomads and world travelers.",s5b:"View rooms",
+s4e:"Medellín",s4t:"Your Home in the City",s4p:"Less than 10 minutes from Parque Lleras, La 70 and Laureles.",s4b:"Book now",nt1:"night",ntn:"nights",pickout:"Select check-out",pickin:"Select check-in",bk_in:"Check-in",bk_out:"Check-out",bk_g:"Guests",bk_adults:"Adults",bk_s:"Check availability",gw1:"guest",gwn:"guests",wa:"Hi! I would like to book from {a} to {b} for {n}.",pick:"Select date",s5e:"Our Rooms",s5t:"Private Rooms",s5p:"Affordable rooms for digital nomads and world travelers.",s5b:"View rooms",
 a_k:"Excellent co-living in Medellín",a_h:"Privacy when you want it. Community when you want it.",
 a_p:"We provide what our guests want: comfortable beds, guaranteed hot showers 24/7, the best WiFi of any hostel or co-living in Medellín (900 Mbps seamless across the building), spacious common areas with wonderful views, tight security and a social, not party, atmosphere. We are proud to have been the first co-living in Medellín.",
 st1:"Private rooms",st2:"Mbps seamless WiFi",st3:"Rooftop city view",st4:"Group capacity",
@@ -347,7 +385,7 @@ m1:"Inicio",m2:"Habitaciones Privadas",m3:"Servicios",m4:"Nosotros",m5:"Contacto
 s1e:"International House",s1t:"Co-Living Medellín",s1p:"El primer co-living en la Ciudad de la Eterna Primavera. Habitaciones privadas, WiFi de 900 Mbps y una terraza con vista de 360°.",
 s2e:"La Terraza",s2t:"Sobre la Ciudad",s2p:"Terraza cubierta con domo, sauna de vapor, BBQ y sala con pantalla gigante para 30 personas.",
 s3e:"La Cocina",s3t:"Nivel Industrial",s3p:"Una cocina en la terraza con equipo de restaurante, considerada una de las mejores de cualquier co-living del mundo.",
-s4e:"Medellín",s4t:"Tu Hogar en la Ciudad",s4p:"A menos de 10 minutos del Parque Lleras, La 70 y Laureles.",s4b:"Reserva ahora",bk_in:"Llegada",bk_out:"Salida",bk_g:"Huéspedes",bk_adults:"Adultos",bk_s:"Ver disponibilidad",gw1:"huésped",gwn:"huéspedes",wa:"¡Hola! Quisiera reservar del {a} al {b} para {n}.",pick:"Elige fecha",s5e:"Nuestras Habitaciones",s5t:"Habitaciones Privadas",s5p:"Habitaciones accesibles para nómadas digitales y viajeros del mundo.",s5b:"Ver habitaciones",
+s4e:"Medellín",s4t:"Tu Hogar en la Ciudad",s4p:"A menos de 10 minutos del Parque Lleras, La 70 y Laureles.",s4b:"Reserva ahora",nt1:"noche",ntn:"noches",pickout:"Elige la salida",pickin:"Elige la llegada",bk_in:"Llegada",bk_out:"Salida",bk_g:"Huéspedes",bk_adults:"Adultos",bk_s:"Ver disponibilidad",gw1:"huésped",gwn:"huéspedes",wa:"¡Hola! Quisiera reservar del {a} al {b} para {n}.",pick:"Elige fecha",s5e:"Nuestras Habitaciones",s5t:"Habitaciones Privadas",s5p:"Habitaciones accesibles para nómadas digitales y viajeros del mundo.",s5b:"Ver habitaciones",
 a_k:"Un excelente co-living en Medellín",a_h:"Privacidad cuando la quieres. Comunidad cuando la quieres.",
 a_p:"Ofrecemos lo que nuestros huéspedes buscan: camas cómodas, agua caliente garantizada 24/7, el mejor WiFi de cualquier hostal o co-living en Medellín (900 Mbps continuos en todo el edificio), amplias zonas comunes con vistas maravillosas, seguridad estricta y un ambiente social, no de fiesta. Estamos orgullosos de haber sido el primer co-living de Medellín.",
 st1:"Habitaciones privadas",st2:"Mbps de WiFi continuo",st3:"Vista de la ciudad desde la terraza",st4:"Capacidad para grupos",
@@ -387,8 +425,9 @@ document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>setLang(b.dat
 // menu
 const burger=document.getElementById('burger'),menu=document.getElementById('menu');
 function toggle(open){menu.classList.toggle('open',open);document.body.classList.toggle('lock',open);
+  burger.classList.toggle('x',open);
   const s=burger.querySelectorAll('span');
-  s[0].style.transform=open?'translateY(4px) rotate(45deg)':'';s[1].style.transform=open?'translateY(-4px) rotate(-45deg)':'';}
+  s[0].style.transform=open?'translateY(7px) rotate(45deg)':'';s[2].style.transform=open?'translateY(-7px) rotate(-45deg)':'';}
 burger.onclick=()=>toggle(!menu.classList.contains('open'));
 menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>toggle(false)));
 
@@ -428,21 +467,71 @@ addEventListener('scroll',()=>{document.getElementById('dots').style.opacity=scr
 
 // booking module (mockup: sends dates to WhatsApp)
 (function(){
-  const inp=document.getElementById('bIn'),out=document.getElementById('bOut'),btn=document.getElementById('gBtn'),pop=document.getElementById('gPop'),val=document.getElementById('gVal');
-  let n=2;const iso=d=>d.toISOString().slice(0,10);
-  const today=new Date(),tom=new Date(Date.now()+864e5);
-  inp.min=iso(today);out.min=iso(tom);inp.value=iso(today);out.value=iso(new Date(Date.now()+3*864e5));
-  inp.onchange=()=>{const m=new Date(new Date(inp.value).getTime()+864e5);out.min=iso(m);if(out.value<=inp.value)out.value=iso(m)};
-  document.querySelectorAll('.book .f:not(.guests)').forEach(l=>l.addEventListener('click',()=>{try{l.querySelector('input').showPicker()}catch(e){}}));
-  window.renderGuests=()=>{const l=document.documentElement.lang;btn.textContent=n+' '+(n===1?T[l].gw1:T[l].gwn);val.textContent=n};
-  renderGuests();
-  btn.onclick=e=>{e.stopPropagation();const o=pop.classList.toggle('open');btn.setAttribute('aria-expanded',o)};
+  const $=id=>document.getElementById(id),bIn=$('bIn'),bOut=$('bOut'),btn=$('gBtn'),pop=$('gPop'),val=$('gVal'),cal=$('cal'),book=$('book');
+  const noon=d=>{const x=new Date(d);x.setHours(12,0,0,0);return x},add=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return noon(x)};
+  const today=noon(new Date());let inD=today,outD=add(today,3),phase='in',view=new Date(today.getFullYear(),today.getMonth(),1),n=2;
+  const L=()=>document.documentElement.lang,fmt=(d,o)=>d.toLocaleDateString(L()==='es'?'es-CO':'en-US',o);
+  const short=d=>fmt(d,{weekday:'short',day:'numeric',month:'short'});
+  const nights=()=>Math.round((outD-inD)/864e5);
+  function labels(){
+    bIn.textContent=short(inD);bOut.textContent=short(outD);
+    const g=n+' '+(n===1?T[L()].gw1:T[L()].gwn);btn.textContent=g;val.textContent=n;
+    book.querySelectorAll('.dt').forEach(f=>f.classList.toggle('active',cal.classList.contains('open')&&f.dataset.p===phase));
+  }
+  const chev=d=>'<svg viewBox="0 0 24 24"><path d="'+(d<0?'M15 4l-8 8 8 8':'M9 4l8 8-8 8')+'"/></svg>';
+  function month(first,i,cnt){
+    const ws=L()==='es'?1:0,off=(first.getDay()-ws+7)%7,dim=new Date(first.getFullYear(),first.getMonth()+1,0).getDate();
+    let h='<div class="mo"><div class="mh">';
+    if(i===0)h+='<button type="button" class="nav prev" data-nav="-1" aria-label="Previous month"'+(first<=new Date(today.getFullYear(),today.getMonth(),1)?' disabled':'')+'>'+chev(-1)+'</button>';
+    h+=fmt(first,{month:'long',year:'numeric'});
+    if(i===cnt-1)h+='<button type="button" class="nav next" data-nav="1" aria-label="Next month">'+chev(1)+'</button>';
+    h+='</div><div class="grid">';
+    for(let k=0;k<7;k++)h+='<div class="wd">'+fmt(new Date(2024,0,7+((k+ws)%7)),{weekday:'narrow'})+'</div>';
+    for(let k=0;k<off;k++)h+='<button class="d blank" disabled></button>';
+    for(let d=1;d<=dim;d++){
+      const D=noon(new Date(first.getFullYear(),first.getMonth(),d)),t=+D;
+      let c='d';if(+D===+today)c+=' t';
+      if(inD&&+D===+inD)c+=' s';if(outD&&+D===+outD)c+=' e';
+      if(inD&&outD&&D>inD&&D<outD)c+=' rng';
+      h+='<button type="button" class="'+c+'" data-t="'+t+'"'+(D<today?' disabled':'')+'><span>'+d+'</span></button>';
+    }
+    return h+'</div></div>';
+  }
+  function render(){
+    const cnt=matchMedia('(max-width:760px)').matches?1:2;let h='<div class="months">';
+    for(let i=0;i<cnt;i++)h+=month(new Date(view.getFullYear(),view.getMonth()+i,1),i,cnt);
+    const nn=nights();
+    h+='</div><div class="foot"><span>'+(phase==='in'?T[L()].pickin:T[L()].pickout)+'</span><span><b>'+nn+'</b> '+(nn===1?T[L()].nt1:T[L()].ntn)+'</span></div>';
+    cal.innerHTML=h;labels();
+  }
+  function open(p){phase=p;pop.classList.remove('open');
+    const ref=p==='in'?inD:outD;view=new Date(ref.getFullYear(),ref.getMonth(),1);
+    if(view<new Date(today.getFullYear(),today.getMonth(),1))view=new Date(today.getFullYear(),today.getMonth(),1);
+    cal.classList.add('open');
+    const f=book.querySelector('.dt[data-p="'+p+'"]');
+    if(innerWidth>980){cal.style.left=(p==='in'?0:f.offsetLeft)+'px'}else cal.style.left='';
+    render();}
+  function close(){cal.classList.remove('open');labels()}
+  book.querySelectorAll('.dt').forEach(f=>f.addEventListener('click',e=>{e.stopPropagation();open(f.dataset.p)}));
+  cal.addEventListener('click',e=>{
+    e.stopPropagation();
+    const nav=e.target.closest('[data-nav]');
+    if(nav){view=new Date(view.getFullYear(),view.getMonth()+ +nav.dataset.nav,1);render();return}
+    const b=e.target.closest('.d[data-t]');if(!b)return;
+    const D=noon(new Date(+b.dataset.t));
+    if(phase==='in'||D<=inD){inD=D;if(outD<=inD)outD=add(inD,1);phase='out';render()}
+    else{outD=D;close()}
+  });
+  document.addEventListener('click',()=>{cal.classList.remove('open');pop.classList.remove('open');labels()});
+  addEventListener('resize',()=>{if(cal.classList.contains('open'))render()});
+  window.renderGuests=()=>{labels();if(cal.classList.contains('open'))render()};
+  btn.onclick=e=>{e.stopPropagation();cal.classList.remove('open');const o=pop.classList.toggle('open');btn.setAttribute('aria-expanded',o);labels()};
   pop.onclick=e=>e.stopPropagation();
-  pop.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{n=Math.min(12,Math.max(1,n+ +b.dataset.d));renderGuests()});
-  document.addEventListener('click',()=>pop.classList.remove('open'));
-  document.getElementById('book').onsubmit=e=>{e.preventDefault();const l=document.documentElement.lang;
-    const fmt=v=>new Date(v+'T12:00').toLocaleDateString(l==='es'?'es-CO':'en-US',{day:'numeric',month:'short'});
-    const msg=T[l].wa.replace('{a}',fmt(inp.value)).replace('{b}',fmt(out.value)).replace('{n}',n+' '+(n===1?T[l].gw1:T[l].gwn));
+  pop.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{n=Math.min(12,Math.max(1,n+ +b.dataset.d));labels()});
+  labels();
+  book.onsubmit=e=>{e.preventDefault();const l=L();
+    const f=d=>fmt(d,{day:'numeric',month:'short'});
+    const msg=T[l].wa.replace('{a}',f(inD)).replace('{b}',f(outD)).replace('{n}',n+' '+(n===1?T[l].gw1:T[l].gwn));
     window.open('https://wa.me/573012114380?text='+encodeURIComponent(msg),'_blank')};
 })();
 
