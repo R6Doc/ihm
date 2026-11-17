@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>International House Medellín — Co-Living</title>
+<link rel="icon" type="image/png" href="img/favicon.png">
 <meta name="description" content="The first co-living in Medellín. 20 private rooms, dedicated fiber for reliable remote work, rooftop kitchen and a 360° view of the city.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syncopate:wght@400&display=swap" rel="stylesheet">
@@ -551,10 +552,12 @@ addEventListener('scroll',()=>{document.getElementById('dots').style.opacity=scr
   pop.onclick=e=>e.stopPropagation();
   pop.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{n=Math.min(12,Math.max(1,n+ +b.dataset.d));labels()});
   labels();
-  book.onsubmit=e=>{e.preventDefault();const l=L();
-    const f=d=>fmt(d,{day:'numeric',month:'short'});
-    const msg=T[l].wa.replace('{a}',f(inD)).replace('{b}',f(outD)).replace('{n}',n+' '+(n===1?T[l].gw1:T[l].gwn));
-    window.open('https://wa.me/573012114380?text='+encodeURIComponent(msg),'_blank')};
+  // Cloudbeds booking engine deep link (dates + guests are passed in the URL)
+  const CB_CODE='lkJJa4';
+  const ymd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  book.onsubmit=e=>{e.preventDefault();
+    const url='https://hotels.cloudbeds.com/'+L()+'/reservation/'+CB_CODE+'/?checkin='+ymd(inD)+'&checkout='+ymd(outD)+'&adults='+n+'&kids=0';
+    window.open(url,'_blank','noopener')};
 })();
 
 
